@@ -85,7 +85,7 @@ def url_fetcher(hash):
 
 @app.route('/')
 def index():
-	return render_template('cover.html')
+	return render_template('main.html')
 
 @app.route('/shorten/', methods=['GET'])
 def shorten():
@@ -93,14 +93,14 @@ def shorten():
 		url = request.args.get("full_url")
 
 		if url is None:
-			return render_template('cover.html', error="yes")
+			return render_template('main.html', error="yes")
 			return
 
 		new_hash = url_generator(url)
 		
-		return render_template('cover.html', hash=new_hash)
+		return render_template('main.html', hash=new_hash)
 	else:
-		return render_template('cover.html', error="yes")
+		return render_template('main.html', error="yes")
 
 @app.route('/<url_hash>')
 def fetch_and_redirect(url_hash):
