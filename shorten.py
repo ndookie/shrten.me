@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.before_request
 def before_request():
-	g.db = sqlite3.connect("shortener.db")
+	g.db = sqlite3.connect("static/shortener.db")
 
 @app.teardown_request
 def teardown_request(exception):
@@ -14,6 +14,7 @@ def teardown_request(exception):
 		g.db.close()
 
 
+# The base for encoding and decoding of the hashes.
 base = 62
 
 # Function for inserting new URL into database.
@@ -22,10 +23,13 @@ def insert_url(url):
 	con = g.db
 	cur = g.db.cursor()
 
+	# Remove http(s):// from the links if they contain them.
 	url = re.sub('^https?://', '', url)
 
+	# Insert url into table with other fields left empty.
 	cur.execute("INSERT INTO url_table VALUES(NULL,'%s',NULL)" % (url))
 
+	# Fetch the generated ID from the table for the inserted URL.
 	cur.execute("SELECT id FROM url_table WHERE url='%s'" % (url));
 
 	url_id = cur.fetchall()
@@ -45,6 +49,7 @@ def update_shortened_url(id, hash):
 	con = g.db
 	cur = g.db.cursor()
 
+	# Updates the table entry for the URL with the hash.
 	cur.execute("UPDATE url_table SET shortened_url='" + hash + "' WHERE id=%i" % (id));
 	con.commit()
 	return
@@ -62,9 +67,6 @@ def url_generator(url):
 def url_fetcher(hash):
 	
 	fetching_id = hash_to_number(hash, base)
-#	with app.app_context():
-#		cur = get_db().cursor()
-
 	con = g.db
 	cur = g.db.cursor()
 
@@ -79,8 +81,7 @@ def url_fetcher(hash):
 
 
 
-
-#**********************ROUTES***********************
+#**********************ROUTES***********************#
 
 @app.route('/')
 def index():
@@ -110,3 +111,7 @@ def fetch_and_redirect(url_hash):
 		return render_template('404.html')
 	else:
 		return redirect("http://" + target_url)
+
+if __name__ == '__main__':
+	app.run(debug=True)
+
