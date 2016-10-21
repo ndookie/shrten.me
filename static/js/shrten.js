@@ -7,11 +7,13 @@ $(document).ready(function() {
   // to indicate whether the text was successfully copied.
   $('#copy-button').bind('click', function() {
     var input = document.querySelector('#copy-input');
+    console.log(input);
     input.setSelectionRange(0, input.value.length + 1);
     try {
       var success = document.execCommand('copy');
       if (success) {
         $('#copy-button').trigger('copied', ['Copied!']);
+        console.log("Successfully copied!");
       } else {
         $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
       }
@@ -29,3 +31,10 @@ $(document).ready(function() {
         .tooltip('fixTitle');
   });
 });
+
+$(document).ready(function(){
+    $('#shorten_button').prop('disabled',true);
+    $('#full_url').keyup(function(){
+        $('#shorten_button').prop('disabled', this.value == "" ? true : false);     
+    })
+});  

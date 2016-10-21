@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<script src="{{ request.url_root}}static/js/shrten.js"></script>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -11,6 +10,13 @@
     <link rel="icon" href="../static/favicon.ico">
 
     <title>shrten.me</title>
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="{{ request.url_root}}static/js/shrten.js"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -22,7 +28,7 @@
     <link href="../static/css/cover.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--[if lt IE 9]><script src="../static/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="../static/js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -65,17 +71,24 @@
             <script>
               window.history.replaceState('Object', 'Title', '/');
             </script>
+              <div class="col-lg-8">
+              <span class="input-group-btn">
+                <input class="form-control input-lg" id="copy-input" type="text" value="http://shrten.me/{{ hash }}" readonly="readonly" style="text-align: center;  margin-right: auto; margin-left: auto;">
+                <button class="btn btn-default" type="button" id="copy-button" data-toggle="tooltip" data-placement="button" title="Copy to Clipboard">
+                  <span class="glyphicon glyphicon-copy"></span>
+                </button>
+              </span>
+              </div>
 
-              Your shortened url!
-              <input class="form-control input-lg" id="copy-input" type="text" value="http://shrten.me/{{ hash }}" readonly="readonly" style="text-align: center">
-                <button class="btn btn-default" type="button" id="copy-button" data-toggle="tooltip" data-placement="button" title="Copy to Clipboard">Copy</button>
+            </span>
+              </span>
 
             {% else %}
 
             <form action="{{ request.url_root }}shorten" method="GET">
-              <h1 class="cover-heading"><input name="full_url" action "shorten" type="text" class="form-control" placeholder="Paste your URL."></h1>
+              <h1 class="cover-heading"><input name="full_url" id="full_url" action "shorten" type="text" class="form-control" placeholder="Paste your URL."></h1>
               <p class="lead">
-                <input value="Shorten Me" type="submit" class="btn btn-primary btn-lg btn-block"/>
+                <input value="Shorten Me" id="shorten_button" type="submit" class="btn btn-primary btn-lg btn-block"/>
               </p>
             </form>
           </div>
@@ -94,13 +107,5 @@
 
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
