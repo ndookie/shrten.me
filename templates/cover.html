@@ -62,6 +62,10 @@
 
             {% if hash %}
 
+            <script>
+              window.history.replaceState('Object', 'Title', '/');
+            </script>
+
               Your shortened url!
               <input class="form-control input-lg" id="copy-input" type="text" value="http://shrten.me/{{ hash }}" readonly="readonly" style="text-align: center">
                 <button class="btn btn-default" type="button" id="copy-button" data-toggle="tooltip" data-placement="button" title="Copy to Clipboard">Copy</button>
