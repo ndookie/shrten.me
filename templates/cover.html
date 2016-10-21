@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<script src="{{ request.url_root}}static/js/shrten.js"></script>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -56,12 +57,26 @@
               POPUP SHOWING ERROR THAT DISAPPEARS
             {% endif %}
 
+
             <h1>SHRTEN.ME</h1>
-            <h1 class="cover-heading"><input name="full_url" type="text" class="form-control" placeholder="Paste your URL."></h1>
-            <p class="lead">
-              <a href="shorten/" class="btn btn-primary btn-lg btn-block">Shorten Me!</a>
-            </p>
+
+            {% if hash %}
+
+              Your shortened url!
+              <input class="form-control input-lg" id="copy-input" type="text" value="http://shrten.me/{{ hash }}" readonly="readonly" style="text-align: center">
+                <button class="btn btn-default" type="button" id="copy-button" data-toggle="tooltip" data-placement="button" title="Copy to Clipboard">Copy</button>
+
+            {% else %}
+
+            <form action="{{ request.url_root }}shorten" method="GET">
+              <h1 class="cover-heading"><input name="full_url" action "shorten" type="text" class="form-control" placeholder="Paste your URL."></h1>
+              <p class="lead">
+                <input value="Shorten Me" type="submit" class="btn btn-primary btn-lg btn-block"/>
+              </p>
+            </form>
           </div>
+
+          {% endif %}
 
           <div class="mastfoot">
             <div class="inner">
