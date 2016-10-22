@@ -48,10 +48,9 @@
 
           <div class="masthead clearfix">
             <div class="inner">
-              <h3 class="masthead-brand">shrten.me - URL Shortener</h3>
               <nav>
                 <ul class="nav masthead-nav">
-                  <li><a href="#">Contact</a></li>
+                  
                 </ul>
               </nav>
             </div>
@@ -71,10 +70,13 @@
             <script>
               window.history.replaceState('Object', 'Title', '/');
             </script>
-              <div class="col-lg-8">
+
+              <div style="">
               <span class="input-group-btn">
-                <input class="form-control input-lg" id="copy-input" type="text" value="http://shrten.me/{{ hash }}" readonly="readonly" style="text-align: center;  margin-right: auto; margin-left: auto;">
-                <button class="btn btn-default" type="button" id="copy-button" data-toggle="tooltip" data-placement="button" title="Copy to Clipboard">
+                <div class="inner cover">
+                  <input class="form-control " id="copy-input" type="text" value="http://shrten.me/{{ hash }}" readonly="readonly" style="text-align: center;  margin-right: auto; margin-left: auto; width: 40%;">
+                </div>
+                <button class="btn btn-default" type="button" id="copy-button" data-toggle="tooltip" data-placement="button" title="Copy to Clipboard" style="margin:10px">
                   <span class="glyphicon glyphicon-copy"></span>
                 </button>
               </span>
@@ -86,7 +88,9 @@
             {% else %}
 
             <form action="{{ request.url_root }}shorten" method="GET">
-              <h1 class="cover-heading"><input name="full_url" id="full_url" action "shorten" type="text" class="form-control" placeholder="Paste your URL."></h1>
+              <h1 class="cover-heading">
+                <input name="full_url" id="full_url" action "shorten" type="text" class="form-control" placeholder="Paste your URL.">
+              </h1>
               <p class="lead">
                 <input value="Shorten Me" id="shorten_button" type="submit" class="btn btn-primary btn-lg btn-block"/>
               </p>
