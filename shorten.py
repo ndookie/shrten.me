@@ -103,6 +103,9 @@ def shorten():
 
 		# Escaping unsavoury characters.
 		url = map(lambda rule: unescaped_url.replace(rule[0], rule[1]), html_escape_table)[0]
+		
+		# This is here until I figure out wtf is going on.
+		url = url.replace("'", "&apos;")
 
 		if url is None:
 			return render_template('main.html', error="yes")
