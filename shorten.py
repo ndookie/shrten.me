@@ -17,6 +17,15 @@ def teardown_request(exception):
 # The base for encoding and decoding of the hashes.
 base = 62
 
+html_escape_table = [
+     ("&", "&amp;"),
+     ('"', "&quot;"),
+     (">", "&gt;"),
+     ("'", "&apos;"),
+     ("<", "&lt;")
+     ]
+
+
 # Function for inserting new URL into database.
 def insert_url(url):
 
@@ -90,7 +99,10 @@ def index():
 @app.route('/shorten/', methods=['GET'])
 def shorten():
 	if request.method == 'GET':
-		url = request.args.get("full_url")
+		unescaped_url = request.args.get("full_url")
+
+		# Escaping unsavoury characters.
+		url = map(lambda rule: unescaped_url.replace(rule[0], rule[1]), html_escape_table)[0]
 
 		if url is None:
 			return render_template('main.html', error="yes")
