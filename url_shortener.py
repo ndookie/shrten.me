@@ -66,10 +66,6 @@ def url_generator(url):
 
 	return shortened_url
 
-#hash_to_number("Fgn", 62)
-#print base_conversion(123456, 62)
 
 print url_fetcher("L")
-
-#url_generator('nigelriazdookie.com')
 
