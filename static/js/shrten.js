@@ -1,40 +1,62 @@
 $(document).ready(function() {
   // Initialize the tooltip.
-  $('#copy-button').tooltip();
+  $('#copyButton').tooltip();
 
-  // When the copy button is clicked, select the value of the text box, attempt
-  // to execute the copy command, and trigger event to update tooltip message
-  // to indicate whether the text was successfully copied.
-  $('#copy-button').bind('click', function() {
-    var input = document.querySelector('#copy-input');
-    console.log(input);
-    input.setSelectionRange(0, input.value.length + 1);
-    try {
-      var success = document.execCommand('copy');
-      if (success) {
-        $('#copy-button').trigger('copied', ['Copied!']);
-        console.log("Successfully copied!");
+  var button = document.getElementById("copyButton");
+
+  button.addEventListener("click", function() {
+      copyToClipboard(document.getElementById("url"));
+  });
+
+  function copyToClipboard(elem) {
+      // create hidden text element, if it doesn't already exist
+      var targetId = "_hiddenCopyText_";
+      var isInput = elem.tagName === "INPUT" || elem.tagName === "TEXTAREA";
+      var origSelectionStart, origSelectionEnd;
+      if (isInput) {
+          // can just use the original source element for the selection and copy
+          target = elem;
+          origSelectionStart = elem.selectionStart;
+          origSelectionEnd = elem.selectionEnd;
       } else {
-        $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
+          // must use a temporary form element for the selection and copy
+          target = document.getElementById(targetId);
+          if (!target) {
+              var target = document.createElement("textarea");
+              target.style.position = "absolute";
+              target.style.left = "-9999px";
+              target.style.top = "0";
+              target.id = targetId;
+              document.body.appendChild(target);
+          }
+          target.textContent = elem.textContent;
       }
-    } catch (err) {
-      $('#copy-button').trigger('copied', ['Copy with Ctrl-c']);
-    }
-  });
-
-  // Handler for updating the tooltip message.
-  $('#copy-button').bind('copied', function(event, message) {
-    $(this).attr('title', message)
-        .tooltip('fixTitle')
-        .tooltip('show')
-        .attr('title', "Copy to Clipboard")
-        .tooltip('fixTitle');
-  });
+      // select the content
+      var currentFocus = document.activeElement;
+      target.focus();
+      target.setSelectionRange(0, target.value.length);
+      
+      // copy the selection
+      var succeed;
+      try {
+          succeed = document.execCommand("copy");
+          console.log("Copied!");
+          $('#copyButton').trigger('copied', ['Copied!']);
+      } catch(e) {
+          succeed = false;
+      }
+      // restore original focus
+      if (currentFocus && typeof currentFocus.focus === "function") {
+          currentFocus.focus();
+      }
+      
+      if (isInput) {
+          // restore prior selection
+          elem.setSelectionRange(origSelectionStart, origSelectionEnd);
+      } else {
+          // clear temporary content
+          target.textContent = "";
+      }
+      return succeed;
+  }
 });
-
-$(document).ready(function(){
-    $('#shorten_button').prop('disabled',true);
-    $('#full_url').keyup(function(){
-        $('#shorten_button').prop('disabled', this.value == "" ? true : false);     
-    })
-});  
