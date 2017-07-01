@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, g, redirect
+from flask import Flask, render_template, request, url_for, g, redirect, request
 import sqlite3, sys, re
 from base_converter import base_conversion, hash_to_number
 
@@ -36,7 +36,7 @@ def insert_url(url):
 	url = re.sub('^https?://', '', url)
 
 	# Insert url into table with other fields left empty.
-	cur.execute("INSERT INTO url_table VALUES(NULL,'%s',NULL)" % (url))
+	cur.execute("INSERT INTO url_table VALUES(NULL,'%s',NULL, NULL)" % (url))
 
 	# Fetch the generated ID from the table for the inserted URL.
 	cur.execute("SELECT id FROM url_table WHERE url='%s'" % (url));
@@ -59,7 +59,8 @@ def update_shortened_url(id, hash):
 	cur = g.db.cursor()
 
 	# Updates the table entry for the URL with the hash.
-	cur.execute("UPDATE url_table SET shortened_url='" + hash + "' WHERE id=%i" % (id));
+	user_ip = str(request.remote_addr)
+	cur.execute("UPDATE url_table SET shortened_url='" + hash + "', ip='" + user_ip + "'  WHERE id=%i" % (id));
 	con.commit()
 	return
 
