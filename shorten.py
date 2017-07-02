@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, g, redirect, request
-import sqlite3, sys, re
+import sqlite3, sys, re, time
 from base_converter import base_conversion, hash_to_number
 
 app = Flask(__name__)
@@ -34,9 +34,10 @@ def insert_url(url):
 
 	# Remove http(s):// from the links if they contain them.
 	url = re.sub('^https?://', '', url)
+	current_time = time.strftime('%Y-%m-%d %H:%M:%S')
 
 	# Insert url into table with other fields left empty.
-	cur.execute("INSERT INTO url_table VALUES(NULL,'%s',NULL, NULL)" % (url))
+	cur.execute("INSERT INTO url_table VALUES(NULL,'" + current_time + "','%s',NULL, NULL)" % (url))
 
 	# Fetch the generated ID from the table for the inserted URL.
 	cur.execute("SELECT id FROM url_table WHERE url='%s'" % (url));
