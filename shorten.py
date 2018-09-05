@@ -60,7 +60,7 @@ def update_shortened_url(id, hash):
 	cur = g.db.cursor()
 
 	# Updates the table entry for the URL with the hash.
-	user_ip = str(request.remote_addr)
+	user_ip = str(request.environ['HTTP_CF_CONNECTING_IP'])
 	cur.execute("UPDATE url_table SET shortened_url='" + hash + "', ip='" + user_ip + "'  WHERE id=%i" % (id));
 	con.commit()
 	return

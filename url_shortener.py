@@ -66,6 +66,3 @@ def url_generator(url):
 
 	return shortened_url
 
-
-print url_fetcher("L")
-
